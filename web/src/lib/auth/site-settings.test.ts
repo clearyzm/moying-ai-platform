@@ -1,11 +1,29 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_SITE_SETTINGS } from "./store-foundation";
-import { normalizeSiteSettings, normalizeSiteSocial } from "./store-normalizers";
+import { normalizeMailSettings, normalizeSiteSettings, normalizeSiteSocial } from "./store-normalizers";
 
 describe("site settings", () => {
     it("uses the bundled browser icon when older settings have no icon URL", () => {
         expect(normalizeSiteSettings({ logoUrl: "/custom-logo.svg" }).iconUrl).toBe(DEFAULT_SITE_SETTINGS.iconUrl);
+    });
+
+    it("migrates the previous Moying brand defaults without overwriting custom names", () => {
+        const site = normalizeSiteSettings({
+            title: "墨影AI创作平台",
+            seoTitle: "墨影AI创作平台",
+            seoKeywords: "墨影AI创作平台,AI 视频,短剧",
+            footerCopyright: "© 2026 墨影AI创作平台",
+        });
+
+        expect(site).toMatchObject({
+            title: "墨影AI漫剧创作平台",
+            seoTitle: "墨影AI漫剧创作平台",
+            seoKeywords: "墨影AI漫剧创作平台,AI 视频,短剧",
+            footerCopyright: "© 2026 墨影AI漫剧创作平台",
+        });
+        expect(normalizeMailSettings({ fromName: "墨影AI创作平台" }, site.title).fromName).toBe("墨影AI漫剧创作平台");
+        expect(normalizeSiteSettings({ title: "自定义漫剧工作室" }).title).toBe("自定义漫剧工作室");
     });
 
     it("accepts a configured browser icon independently from the logo", () => {

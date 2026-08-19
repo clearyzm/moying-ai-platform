@@ -82,6 +82,8 @@ import { ALL_ADMIN_PERMISSIONS, isFullAdminPermissions, normalizeAdminPermission
 
 export { currentQuotaDate, hashToken, normalizeDisplayName, normalizeEmail, normalizeUserBio, normalizeUsername, parseSessionCookie, randomNumericCode, validateEmail, validatePassword, validateUsername } from "./store-auth-utils";
 
+const LEGACY_MOYING_SITE_TITLE = "墨影AI创作平台";
+
 export function normalizeDb(db: Partial<AuthDatabase>): AuthDatabase {
     const settings = normalizeSettings(decryptAuthSettingsSecrets({ ...DEFAULT_SETTINGS, ...(db.settings || {}) } as AuthSettings));
     const usedAccountIds = new Set<number>();
@@ -450,16 +452,16 @@ export function normalizeDataLifecycle(settings: Partial<DataLifecycleSettings> 
 }
 
 export function normalizeSiteSettings(settings: Partial<SiteSettings> | undefined): SiteSettings {
-    const title = normalizeText(settings?.title, DEFAULT_SITE_SETTINGS.title, 40);
-    const seoTitle = normalizeBrandDefault(settings?.seoTitle, DEFAULT_SITE_SETTINGS.seoTitle, title, title, 72);
+    const title = normalizeText(migrateLegacyMoyingBrand(settings?.title), DEFAULT_SITE_SETTINGS.title, 40);
+    const seoTitle = normalizeBrandDefault(migrateLegacyMoyingBrand(settings?.seoTitle), DEFAULT_SITE_SETTINGS.seoTitle, title, title, 72);
     return {
         title,
         logoUrl: normalizeLogoUrl(settings?.logoUrl),
         iconUrl: normalizeSiteIconUrl(settings?.iconUrl),
         seoTitle,
         seoDescription: normalizeText(settings?.seoDescription, DEFAULT_SITE_SETTINGS.seoDescription, 180),
-        seoKeywords: normalizeBrandDefault(settings?.seoKeywords, DEFAULT_SITE_SETTINGS.seoKeywords, title, DEFAULT_SITE_SETTINGS.seoKeywords.replace(DEFAULT_SITE_SETTINGS.title, title), 240),
-        footerCopyright: normalizeBrandDefault(settings?.footerCopyright, DEFAULT_SITE_SETTINGS.footerCopyright, title, DEFAULT_SITE_SETTINGS.footerCopyright.replace(DEFAULT_SITE_SETTINGS.title, title), 120),
+        seoKeywords: normalizeBrandDefault(migrateLegacyMoyingBrand(settings?.seoKeywords), DEFAULT_SITE_SETTINGS.seoKeywords, title, DEFAULT_SITE_SETTINGS.seoKeywords.replace(DEFAULT_SITE_SETTINGS.title, title), 240),
+        footerCopyright: normalizeBrandDefault(migrateLegacyMoyingBrand(settings?.footerCopyright), DEFAULT_SITE_SETTINGS.footerCopyright, title, DEFAULT_SITE_SETTINGS.footerCopyright.replace(DEFAULT_SITE_SETTINGS.title, title), 120),
         termsUrl: normalizeLinkUrl(settings?.termsUrl, DEFAULT_SITE_SETTINGS.termsUrl),
         termsVersion: normalizeText(settings?.termsVersion, DEFAULT_SITE_SETTINGS.termsVersion, 80),
         privacyUrl: normalizeLinkUrl(settings?.privacyUrl, DEFAULT_SITE_SETTINGS.privacyUrl),
@@ -481,9 +483,10 @@ export function normalizeSiteFriendLinks(settings: unknown, siteTitle = DEFAULT_
         .map((link, index) => {
             const value = link as Partial<SiteFriendLink>;
             const defaultHomeLink = value.id === "vozeb-pro-home" && value.url?.replace(/\/$/, "") === "https://www.vozeb.com";
+            const bundledHomeLabel = !value.label || value.label === "VOZEB PRO" || value.label === LEGACY_MOYING_SITE_TITLE || value.label === DEFAULT_SITE_SETTINGS.title;
             return {
                 id: normalizeText(value.id, `friend-${index + 1}`, 80),
-                label: normalizeText(defaultHomeLink && (!value.label || value.label === DEFAULT_SITE_SETTINGS.title) ? siteTitle : value.label, "友情链接", 32),
+                label: normalizeText(defaultHomeLink && bundledHomeLabel ? siteTitle : migrateLegacyMoyingBrand(value.label), "友情链接", 32),
                 url: normalizeLinkUrl(value.url, ""),
                 enabled: value.enabled !== false,
             };
@@ -531,6 +534,7 @@ function normalizeSiteSocialUrl(key: SiteSocialKey, value: unknown) {
 
 export function normalizeMailSettings(settings: Partial<MailSettings> | undefined, siteTitle = DEFAULT_SITE_SETTINGS.title): MailSettings {
     const port = Math.max(1, Math.min(65535, Math.floor(Number(settings?.port) || DEFAULT_MAIL_SETTINGS.port)));
+    const fromName = migrateLegacyMoyingBrand(settings?.fromName);
     return {
         provider: normalizeText(settings?.provider, DEFAULT_MAIL_SETTINGS.provider, 40),
         host: normalizeText(settings?.host, DEFAULT_MAIL_SETTINGS.host, 120),
@@ -539,8 +543,12 @@ export function normalizeMailSettings(settings: Partial<MailSettings> | undefine
         username: normalizeText(settings?.username, DEFAULT_MAIL_SETTINGS.username, 160),
         password: normalizeSecretText(settings?.password, DEFAULT_MAIL_SETTINGS.password, 512),
         fromEmail: normalizeText(settings?.fromEmail, DEFAULT_MAIL_SETTINGS.fromEmail, 160),
-        fromName: normalizeText(!settings?.fromName || settings.fromName === DEFAULT_MAIL_SETTINGS.fromName ? siteTitle : settings.fromName, siteTitle, 60),
+        fromName: normalizeText(!fromName || fromName === DEFAULT_MAIL_SETTINGS.fromName ? siteTitle : fromName, siteTitle, 60),
     };
+}
+
+function migrateLegacyMoyingBrand(value: unknown) {
+    return typeof value === "string" ? value.replaceAll(LEGACY_MOYING_SITE_TITLE, DEFAULT_SITE_SETTINGS.title) : value;
 }
 
 export function normalizeSecretText(value: unknown, fallback: string, maxPlainLength: number) {
