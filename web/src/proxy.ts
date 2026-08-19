@@ -3,7 +3,8 @@ import { getTrustedProxyHops } from "@/lib/server/trusted-proxy";
 
 export function proxy(request: NextRequest) {
     const nonce = crypto.randomUUID().replaceAll("-", "");
-    const contentSecurityPolicy = buildContentSecurityPolicy(nonce);
+    const secureRequest = publicRequestOrigin(request).startsWith("https://");
+    const contentSecurityPolicy = buildContentSecurityPolicy(nonce, secureRequest);
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-nonce", nonce);
     requestHeaders.set("content-security-policy", contentSecurityPolicy);
@@ -44,7 +45,7 @@ function securedJsonResponse(body: unknown, status: number, contentSecurityPolic
     return response;
 }
 
-function buildContentSecurityPolicy(nonce: string) {
+function buildContentSecurityPolicy(nonce: string, secureRequest: boolean) {
     const isDev = process.env.NODE_ENV !== "production";
     return [
         "default-src 'self'",
@@ -60,7 +61,7 @@ function buildContentSecurityPolicy(nonce: string) {
         "base-uri 'self'",
         "form-action 'self'",
         "frame-ancestors 'none'",
-        ...(isDev ? [] : ["upgrade-insecure-requests"]),
+        ...(isDev || !secureRequest ? [] : ["upgrade-insecure-requests"]),
     ].join("; ");
 }
 
