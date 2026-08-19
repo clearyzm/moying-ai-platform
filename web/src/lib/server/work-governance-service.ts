@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 
+import { listMoyingDemoGallery, moyingDemoGalleryEnabled } from "@/lib/demo-gallery";
 import { createPostgresRepositories, ensurePostgresSchema, getDatabaseProvider, withPostgresTransaction } from "@/lib/server/database";
 import type { PublishedGalleryItemRecord, PublishedWorkCaseRecord, PublishedWorkCaseStatus, PublishedWorkCaseType } from "@/lib/server/database";
 import type { GalleryCursor, GallerySort } from "@/lib/server/database/work-governance-repository";
@@ -16,6 +17,7 @@ export class WorkGovernanceServiceError extends Error {
 }
 
 export async function listPublicGallery(input: { limit?: number; sort?: unknown; category?: unknown; tag?: unknown; keyword?: unknown; featured?: unknown; cursor?: unknown } = {}) {
+    if (moyingDemoGalleryEnabled()) return listMoyingDemoGallery(input);
     await assertReady();
     const sort = gallerySort(input.sort);
     const after = decodeCursor(input.cursor, sort);

@@ -3,7 +3,7 @@
 import { ArrowRight, GalleryVerticalEnd, Plus, Search, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Select } from "antd";
+import { Modal, Select } from "antd";
 
 import { PublicWorkPreviewModal } from "@/components/works/public-work-preview-modal";
 import { PublicWorkGalleryCard } from "@/components/works/public-work-gallery-card";
@@ -11,6 +11,7 @@ import { PublicCreatorModal } from "@/components/works/public-creator-modal";
 import { ResponsiveMasonryGrid } from "@/components/works/responsive-masonry-grid";
 import { WORK_CATEGORY_OPTIONS } from "@/lib/work-publication-options";
 import { cn } from "@/lib/utils";
+import type { PublicGalleryItem } from "@/services/api/work-governance";
 import type { GalleryFilters, GalleryResult } from "./gallery-data";
 import { GalleryPublishLink } from "./gallery-publish-link";
 
@@ -20,6 +21,7 @@ const primaryLinkClass = "inline-flex h-9 items-center justify-center gap-2 roun
 export function GalleryView({ filters, gallery, basePath, embedded = false }: { filters: GalleryFilters; gallery: GalleryResult; basePath: string; embedded?: boolean }) {
     const filtered = hasFilters(filters);
     const [previewSlug, setPreviewSlug] = useState("");
+    const [demoPreview, setDemoPreview] = useState<PublicGalleryItem>();
     const [creatorUsername, setCreatorUsername] = useState("");
     const [sort, setSort] = useState(filters.sort);
 
@@ -97,7 +99,7 @@ export function GalleryView({ filters, gallery, basePath, embedded = false }: { 
             ) : gallery.items.length ? (
                 <ResponsiveMasonryGrid className="grid-cols-2 py-3 sm:grid-cols-3 sm:py-4 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6" ariaLabel="作品列表">
                     {gallery.items.map((item) => (
-                        <PublicWorkGalleryCard key={item.slug} item={item} nextPath={basePath} onOpen={() => setPreviewSlug(item.slug)} onOpenAuthor={setCreatorUsername} />
+                        <PublicWorkGalleryCard key={item.slug} item={item} nextPath={basePath} onOpen={() => (item.slug.startsWith("demo-") ? setDemoPreview(item) : setPreviewSlug(item.slug))} onOpenAuthor={setCreatorUsername} />
                     ))}
                 </ResponsiveMasonryGrid>
             ) : (
@@ -134,6 +136,9 @@ export function GalleryView({ filters, gallery, basePath, embedded = false }: { 
                 </div>
             ) : null}
             <PublicWorkPreviewModal slug={previewSlug || undefined} onClose={() => setPreviewSlug("")} onOpenCreator={setCreatorUsername} />
+            <Modal open={Boolean(demoPreview)} onCancel={() => setDemoPreview(undefined)} footer={null} centered width="auto" destroyOnHidden title={demoPreview?.title}>
+                {demoPreview?.preview?.mediaType === "image" ? <img src={demoPreview.preview.url} alt={demoPreview.title} className="block max-h-[78dvh] max-w-[min(88vw,900px)] object-contain" /> : null}
+            </Modal>
             <PublicCreatorModal username={creatorUsername || undefined} nextPath={basePath} onClose={() => setCreatorUsername("")} />
         </div>
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, GalleryVerticalEnd, Star, Video } from "lucide-react";
+import { Eye, GalleryVerticalEnd, Heart, Star, Video } from "lucide-react";
 import Link from "next/link";
 
 import { LazyMediaImage } from "@/components/media/lazy-media-image";
@@ -11,6 +11,7 @@ import { PublicWorkCardTitle } from "./public-work-card-title";
 import { PublicWorkLikeButton } from "./public-work-like-button";
 
 export function PublicWorkGalleryCard({ item, nextPath, onOpen, onOpenAuthor }: { item: PublicGalleryItem; nextPath: string; onOpen: () => void; onOpenAuthor?: (username: string) => void }) {
+    const isDemo = item.slug.startsWith("demo-");
     const authorUsername = item.authorUsername;
     const author = (
         <>
@@ -76,7 +77,13 @@ export function PublicWorkGalleryCard({ item, nextPath, onOpen, onOpenAuthor }: 
                         <span className="inline-flex items-center gap-1" title="访问">
                             <Eye className="size-3" /> {item.viewCount}
                         </span>
-                        <PublicWorkLikeButton slug={item.slug} initialCount={item.likeCount} compact nextPath={nextPath} />
+                        {isDemo ? (
+                            <span className="inline-flex items-center gap-1" title="示例热度">
+                                <Heart className="size-3" /> {item.likeCount}
+                            </span>
+                        ) : (
+                            <PublicWorkLikeButton slug={item.slug} initialCount={item.likeCount} compact nextPath={nextPath} />
+                        )}
                     </span>
                 </div>
             </div>
