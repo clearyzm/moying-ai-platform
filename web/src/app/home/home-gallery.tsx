@@ -11,6 +11,7 @@ import { LazyMediaImage } from "@/components/media/lazy-media-image";
 import { imagePreviewUrl } from "@/lib/media-image-url";
 import { listPublicGallery, type PublicGalleryItem } from "@/services/api/work-governance";
 import { HOME_GALLERY_TABS, homeGalleryMatches, type HomeGalleryTab } from "./home-data";
+import { HomeScrollReveal } from "./home-scroll-reveal";
 import styles from "./home.module.css";
 
 export function HomeGallery() {
@@ -24,7 +25,7 @@ export function HomeGallery() {
     const items = (query.data?.items || []).filter((item) => homeGalleryMatches(item, tab));
 
     return (
-        <section id="inspiration" className={styles.section} aria-labelledby="home-gallery-title">
+        <HomeScrollReveal id="inspiration" className={styles.section} aria-labelledby="home-gallery-title" distance={34}>
             <header className={styles.sectionHeading}>
                 <h2 id="home-gallery-title">灵感作品展示</h2>
                 <p>探索创作者的优秀作品，激发你的创作灵感</p>
@@ -77,7 +78,7 @@ export function HomeGallery() {
                 </Link>
             </div>
             <HomeMediaPreview item={previewItem} onClose={() => setPreviewItem(undefined)} />
-        </section>
+        </HomeScrollReveal>
     );
 }
 

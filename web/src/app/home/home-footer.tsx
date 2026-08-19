@@ -7,12 +7,13 @@ import { ArrowRight, Mail, Send } from "lucide-react";
 import { SiteLogo } from "@/components/layout/site-logo";
 import { HOME_NAVIGATION, type HomeNavigationItem } from "./home-data";
 import { useHomeActions } from "./home-actions";
+import { HomeScrollReveal } from "./home-scroll-reveal";
 import styles from "./home.module.css";
 
 export function HomeCta() {
     const { site, startCreating } = useHomeActions();
     return (
-        <section className={styles.cta} aria-labelledby="home-cta-title">
+        <HomeScrollReveal className={styles.cta} aria-labelledby="home-cta-title" distance={24}>
             <span className={`${styles.ctaCrystal} ${styles.ctaCrystalLeft}`} aria-hidden="true" />
             <span className={`${styles.ctaCrystal} ${styles.ctaCrystalRight}`} aria-hidden="true" />
             <div>
@@ -22,7 +23,7 @@ export function HomeCta() {
             <button type="button" onClick={() => startCreating()}>
                 免费开始 <ArrowRight aria-hidden="true" />
             </button>
-        </section>
+        </HomeScrollReveal>
     );
 }
 

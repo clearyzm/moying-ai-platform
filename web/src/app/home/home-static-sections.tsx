@@ -1,6 +1,7 @@
 import { Cloud, Grid2X2, History, Layers3, Network, PencilLine, Rocket, Share2 } from "lucide-react";
 
 import { HOME_ADVANTAGES, HOME_STEPS } from "./home-data";
+import { HomeScrollReveal } from "./home-scroll-reveal";
 import styles from "./home.module.css";
 
 const stepIcons = { grid: Grid2X2, edit: PencilLine, rocket: Rocket, share: Share2 } as const;
@@ -8,7 +9,7 @@ const advantageIcons = { layers: Layers3, network: Network, history: History, cl
 
 export function HomeStepsSection() {
     return (
-        <section className={styles.section} aria-labelledby="home-steps-title">
+        <HomeScrollReveal className={styles.section} aria-labelledby="home-steps-title">
             <SectionHeading id="home-steps-title" title="简单四步，创意即刻落地" subtitle="AI 赋能每一步，只需四个简单步骤" />
             <div className={styles.stepsGrid}>
                 {HOME_STEPS.map((step) => {
@@ -25,13 +26,13 @@ export function HomeStepsSection() {
                     );
                 })}
             </div>
-        </section>
+        </HomeScrollReveal>
     );
 }
 
 export function HomeAdvantagesSection() {
     return (
-        <section className={styles.advantages} aria-label="平台优势">
+        <HomeScrollReveal className={styles.advantages} aria-label="平台优势" distance={22}>
             {HOME_ADVANTAGES.map((advantage) => {
                 const Icon = advantageIcons[advantage.icon];
                 return (
@@ -46,7 +47,7 @@ export function HomeAdvantagesSection() {
                     </article>
                 );
             })}
-        </section>
+        </HomeScrollReveal>
     );
 }
 

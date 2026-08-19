@@ -1223,6 +1223,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .scrollReveal {
+        opacity: 1 !important;
+        transform: none !important;
+    }
     .root {
         scroll-behavior: auto;
     }
