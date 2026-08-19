@@ -11,7 +11,7 @@ import { withGenerationConcurrencyLimit } from "@/lib/server/generation-task-sto
 import { resolveInternalOrigin } from "@/lib/server/internal-origin";
 import { publicAgentRun } from "@/lib/server/agent-run-public";
 
-export const maxDuration = 2400;
+export const maxDuration = 300;
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string; taskId: string }> }) {
     const user = await getCurrentUser(request);

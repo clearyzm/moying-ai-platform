@@ -16,7 +16,7 @@ import { checkGenerationRateLimit, rateLimitHeaders } from "@/lib/server/securit
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 2400;
+export const maxDuration = 300;
 
 export async function POST(request: Request) {
     const user = await getCurrentUser(request);

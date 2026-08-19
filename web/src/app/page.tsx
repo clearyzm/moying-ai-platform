@@ -14,7 +14,8 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
     const [install, site] = await Promise.all([getInstallStatus(), getPublicSiteSettings()]);
-    if (!install.ready) redirect("/install");
+    const showcaseMode = process.env.NEXT_PUBLIC_SHOWCASE_MODE === "1" || process.env.VERCEL === "1";
+    if (!install.ready && !showcaseMode) redirect("/install");
 
     return (
         <HomeActionsProvider initialSite={site}>

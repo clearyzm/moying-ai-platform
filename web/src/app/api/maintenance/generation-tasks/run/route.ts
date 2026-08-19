@@ -7,7 +7,7 @@ import { getInstallStatus } from "@/lib/server/install-status";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 2400;
+export const maxDuration = 300;
 
 export async function POST(request: Request) {
     if (!isWorkerTokenConfigured()) return NextResponse.json({ code: 503, data: null, msg: "Worker 令牌未配置或未与维护令牌分离" }, { status: 503 });

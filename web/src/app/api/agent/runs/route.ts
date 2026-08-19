@@ -11,7 +11,7 @@ import { resolveInternalOrigin } from "@/lib/server/internal-origin";
 import { runGenerationTaskRecoveryBatch } from "@/lib/server/generation-task-recovery-service";
 import { publicAgentRun } from "@/lib/server/agent-run-public";
 
-export const maxDuration = 2400;
+export const maxDuration = 300;
 
 export async function GET(request: Request) {
     const user = await getCurrentUser(request);

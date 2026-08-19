@@ -1,14 +1,17 @@
 import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { ProxyAgent, setGlobalDispatcher } from "undici";
 import { parseChangelog } from "@/lib/release";
 
 const webDir = dirname(fileURLToPath(import.meta.url));
-const localVersion = readFileSync(resolve(webDir, "../VERSION"), "utf8").trim() || "dev";
-const localChangelog = readFileSync(resolve(webDir, "../CHANGELOG.md"), "utf8");
+const packageMetadata = JSON.parse(readFileSync(resolve(webDir, "package.json"), "utf8")) as { version?: string };
+const versionPath = resolve(webDir, "../VERSION");
+const changelogPath = resolve(webDir, "../CHANGELOG.md");
+const localVersion = (existsSync(versionPath) ? readFileSync(versionPath, "utf8").trim() : `v${packageMetadata.version || "dev"}`) || "dev";
+const localChangelog = existsSync(changelogPath) ? readFileSync(changelogPath, "utf8") : `# ${localVersion}\n\n- 墨影AI创作平台展示版本。`;
 const configuredBuildCpus = Number.parseInt(process.env.NEXT_BUILD_CPUS || "", 10);
 const distDir = process.env.NEXT_DIST_DIR?.trim() || ".next";
 const skipBuildTypeCheck = process.env.NEXT_SKIP_BUILD_TYPECHECK === "1";

@@ -18,8 +18,10 @@ import InstallPage from "./install/page";
 describe("installation page routing", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        delete process.env.VERCEL;
+        delete process.env.NEXT_PUBLIC_SHOWCASE_MODE;
         mocks.getPublicSiteSettings.mockResolvedValue({
-            title: "VOZEB PRO",
+            title: "墨影AI创作平台",
             logoUrl: "/logo.svg",
             seoDescription: "",
             footerCopyright: "",
@@ -42,6 +44,14 @@ describe("installation page routing", () => {
 
     it("renders the homepage after setup is complete", async () => {
         mocks.getInstallStatus.mockResolvedValue({ ready: true });
+
+        await expect(HomePage()).resolves.toBeTruthy();
+        expect(mocks.redirect).not.toHaveBeenCalled();
+    });
+
+    it("renders the showcase homepage on Vercel without an installed database", async () => {
+        process.env.VERCEL = "1";
+        mocks.getInstallStatus.mockResolvedValue({ ready: false });
 
         await expect(HomePage()).resolves.toBeTruthy();
         expect(mocks.redirect).not.toHaveBeenCalled();

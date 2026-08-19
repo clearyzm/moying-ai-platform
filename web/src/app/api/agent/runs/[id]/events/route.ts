@@ -7,7 +7,7 @@ import { waitForCreativeRunEvent } from "@/lib/server/creative-run-event-signal"
 import { publicAgentRunEvent, publicAgentRunSnapshot } from "@/lib/server/agent-run-public";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 2400;
+export const maxDuration = 300;
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const user = await getCurrentUser();

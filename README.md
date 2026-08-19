@@ -13,6 +13,7 @@
 </p>
 
 <p align="center">
+  <a href="https://moying-ai-platform.vercel.app">在线展示</a> ·
   <a href="docs/index.md">文档索引</a> ·
   <a href="docs/content/docs/overview/configuration.mdx">0.0.6 发布说明</a> ·
   <a href="#目录与文件用途">目录与文件用途</a> ·
@@ -22,9 +23,12 @@
   <a href="CHANGELOG.md">更新记录</a>
 </p>
 
+> [!IMPORTANT]
+> [Vercel 在线站点](https://moying-ai-platform.vercel.app)仅用于展示墨影AI创作平台的界面、响应式布局与交互动效，不提供可承诺的数据持久化或完整 AI 生成服务。真正使用时，请下载源码并配置 PostgreSQL、稳定的加密密钥、模型渠道、S3 兼容对象存储和常驻 Generation Worker；部署要求见下方“快速开始”和[配置说明](docs/content/docs/overview/configuration.mdx)。
+
 墨影AI创作平台采用纸张、墨色与朱砂构成的创作界面，并加入 AI 墨球思考动效。平台把统一创作 Agent、画布、短剧生产、素材库和商业运营后台放在同一套 Next.js 全栈应用中。PostgreSQL 保存账号与业务数据；媒体可写入服务器本地目录或 S3 兼容对象存储；模型、支付和存储密钥只在服务端使用。
 
-本项目基于 [VOZEB-PRO](https://github.com/csyqlz/VOZEB-PRO) 进行界面重设计与品牌定制，并继续遵循仓库中的 AGPL-3.0 许可证。
+本项目是基于 [VOZEB-PRO](https://github.com/csyqlz/VOZEB-PRO) 创建的修改版本，并继续遵循 AGPL-3.0 许可证。clearyzm 于 2026-08-19 完成产品品牌、首页视觉系统、交互文案、AI 墨球动画及展示部署适配；详情见[修改声明](NOTICE.md)。
 
 ## 核心功能
 
@@ -369,7 +373,7 @@ flowchart LR
 
 ## 最低服务器配置
 
-VOZEB PRO 调用外部 AI 模型，不要求 GPU。服务器主要承担 Web、PostgreSQL、媒体下载/存储和可选 FFmpeg 转码。
+墨影AI创作平台调用外部 AI 模型，不要求 GPU。服务器主要承担 Web、PostgreSQL、媒体下载/存储和可选 FFmpeg 转码。
 
 | 使用方式                   | CPU      | 内存           | 磁盘      | 说明                                                                |
 | -------------------------- | -------- | -------------- | --------- | ------------------------------------------------------------------- |
@@ -389,15 +393,15 @@ VOZEB PRO 调用外部 AI 模型，不要求 GPU。服务器主要承担 Web、P
 环境要求：可运行 Docker Compose 的 Linux 服务器、HTTPS 域名，以及按业务需要准备的模型渠道。
 
 ```bash
-git clone https://github.com/csyqlz/VOZEB-PRO.git
-cd VOZEB-PRO
+git clone https://github.com/clearyzm/moying-ai-platform.git
+cd moying-ai-platform
 cp .env.example .env
 ```
 
 至少修改：
 
 ```dotenv
-NEXT_PUBLIC_SITE_URL=https://vozeb-pro.example.com
+NEXT_PUBLIC_SITE_URL=https://moying-ai.example.com
 POSTGRES_PASSWORD=replace-with-a-strong-password
 VOZEB_PRO_ENCRYPTION_KEY=replace-with-openssl-rand-hex-32
 VOZEB_PRO_INSTALL_TOKEN=replace-with-one-time-openssl-rand-hex-32
@@ -461,7 +465,7 @@ pnpm install --frozen-lockfile
 pnpm run dev
 ```
 
-`http://localhost:3000` 必须显示 VOZEB PRO 主应用；如果看到“VOZEB PRO 文档中心”，说明启动的是 `docs/` 子项目或旧版文档脚本，请停止该进程并从 `web/` 启动主应用。独立文档站只使用 `http://localhost:3001`。
+`http://localhost:3000` 必须显示墨影AI创作平台主应用；如果看到独立文档中心，说明启动的是 `docs/` 子项目，请停止该进程并从 `web/` 启动主应用。独立文档站只使用 `http://localhost:3001`。
 
 ## 首次配置顺序
 
@@ -549,18 +553,9 @@ pnpm run build
 - [AGPL-3.0](LICENSE)
 - [贡献者协议](CLA.md)
 
-## 社区交流
+## 问题与建议
 
-<table>
-  <tr>
-    <td width="260"><a href="https://qm.qq.com/q/9MVLTxuRd6"><img src="docs/public/community/qq-vozeb-group-1049777515.webp" width="240" alt="VOZEB 开源交流 QQ 群二维码"></a></td>
-    <td>
-      <strong>VOZEB 开源交流</strong><br>
-      QQ 群：<code>1049777515</code> · <a href="https://qm.qq.com/q/9MVLTxuRd6">点击加入群聊</a><br><br>
-      欢迎交流部署、模型渠道适配、创作功能使用、Bug 复现和代码贡献。请勿在群内发送 API Key、数据库密码、支付密钥、服务器私钥或未经脱敏的生产日志。
-    </td>
-  </tr>
-</table>
+请通过本仓库的 [Issues](https://github.com/clearyzm/moying-ai-platform/issues) 提交问题、功能建议和可复现信息。请勿公开发送 API Key、数据库密码、支付密钥、服务器私钥或未经脱敏的生产日志。
 
 ## 致谢
 

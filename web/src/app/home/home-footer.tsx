@@ -95,15 +95,18 @@ export function HomeFooter() {
             {copyright || policies.length ? (
                 <div className={styles.footerBottom} data-testid="home-footer-bottom">
                     {copyright ? <span>{copyright}</span> : null}
-                    {policies.length ? (
-                        <div>
-                            {policies.map((item) => (
-                                <a key={item.label} href={item.href} target={externalTarget(item.href)} rel={externalTarget(item.href) ? "noreferrer" : undefined}>
-                                    {item.label}
-                                </a>
-                            ))}
-                        </div>
-                    ) : null}
+                    <div>
+                        <a href="https://github.com/clearyzm/moying-ai-platform" target="_blank" rel="noreferrer">
+                            项目源码
+                        </a>
+                        {policies.length
+                            ? policies.map((item) => (
+                                  <a key={item.label} href={item.href} target={externalTarget(item.href)} rel={externalTarget(item.href) ? "noreferrer" : undefined}>
+                                      {item.label}
+                                  </a>
+                              ))
+                            : null}
+                    </div>
                 </div>
             ) : null}
         </footer>
