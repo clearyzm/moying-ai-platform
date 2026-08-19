@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="web/public/logo.svg" width="104" alt="墨影AI创作平台 Logo">
+</p>
+
 <h1 align="center">墨影AI创作平台</h1>
 
 <p align="center">想法落笔，万象成影</p>
@@ -22,6 +26,8 @@
   <a href="CONTRIBUTING.md">参与贡献</a> ·
   <a href="CHANGELOG.md">更新记录</a>
 </p>
+
+![墨影AI创作平台首页](docs/public/screenshots/pages/01-home-moying.png)
 
 > [!IMPORTANT]
 > [Vercel 在线站点](https://moying-ai-platform.vercel.app)仅用于展示墨影AI创作平台的界面、响应式布局与交互动效，不提供可承诺的数据持久化或完整 AI 生成服务。真正使用时，请下载源码并配置 PostgreSQL、稳定的加密密钥、模型渠道、S3 兼容对象存储和常驻 Generation Worker；部署要求见下方“快速开始”和[配置说明](docs/content/docs/overview/configuration.mdx)。

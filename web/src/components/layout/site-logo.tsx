@@ -5,7 +5,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function SiteLogo({ logoUrl, className }: { logoUrl: string; className?: string }) {
-    const customLogoUrl = logoUrl.trim() && logoUrl !== "/logo.svg" ? logoUrl.trim() : "";
+    const customLogoUrl = logoUrl.trim() || "/logo.svg";
     const [failedLogoUrl, setFailedLogoUrl] = useState("");
 
     if (customLogoUrl && failedLogoUrl !== customLogoUrl) {
