@@ -29,10 +29,13 @@ describe("release workflow contract", () => {
 
     it("runs lint, tests, type-check, build and browser E2E in the main quality workflow", () => {
         const source = workflow("quality.yml");
+        const document = parseDocument(source);
 
-        expect(parseDocument(source).errors).toEqual([]);
+        expect(document.errors).toEqual([]);
         for (const command of ["pnpm run lint", "pnpm run typecheck", "pnpm test", "pnpm run build", "pnpm run e2e"]) expect(source).toContain(command);
-        expect(source).toContain("pnpm exec playwright install --with-deps chromium");
+        const browserInstall = document.toJS().jobs.web.steps.find((item) => item.name === "Install Playwright Chromium");
+        expect(browserInstall?.run).toBe("pnpm exec playwright install --with-deps --only-shell chromium");
+        expect(browserInstall?.["timeout-minutes"]).toBe(10);
         expect(source).toContain("version: 11.9.0");
         expect(source).toContain("gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7");
         expect(source).toContain("github/codeql-action/analyze@47be0dbd5113ab1b79fe2dd3f68bdf7e426cdc87");
