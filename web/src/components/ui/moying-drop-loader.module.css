@@ -1,0 +1,87 @@
+.loader {
+    --loader-ink: #17191d;
+    --loader-vermilion: #c84a36;
+    animation: loader-breathe 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    display: inline-grid;
+    place-items: center;
+}
+
+.mark {
+    display: block;
+    height: 100%;
+    overflow: visible;
+    width: 100%;
+}
+
+.outline {
+    fill: transparent;
+    opacity: 0.24;
+    stroke: var(--loader-ink);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.25;
+}
+
+.fill {
+    animation: loader-fill 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    transform: scaleY(0.02);
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    will-change: transform, opacity;
+}
+
+.inkFill {
+    fill: var(--loader-ink);
+}
+
+.vermilionFill {
+    animation-delay: 0.12s;
+    fill: var(--loader-vermilion);
+}
+
+:global(.dark) .loader {
+    --loader-ink: #e7e4df;
+    --loader-vermilion: #e06a52;
+}
+
+:global(.dark) .outline {
+    opacity: 0.3;
+}
+
+@keyframes loader-fill {
+    0%,
+    12% {
+        opacity: 0.25;
+        transform: scaleY(0.02);
+    }
+    62%,
+    84% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    100% {
+        opacity: 0.12;
+        transform: scaleY(0.02);
+    }
+}
+
+@keyframes loader-breathe {
+    0%,
+    58%,
+    100% {
+        transform: scale(0.94);
+    }
+    72%,
+    84% {
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fill,
+    .loader {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}

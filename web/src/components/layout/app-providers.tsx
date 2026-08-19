@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 
 import { ClientRootInit } from "@/components/layout/client-root-init";
+import { MoyingDropLoader } from "@/components/ui/moying-drop-loader";
 import { getAntThemeConfig } from "@/lib/app-theme";
 import { useThemeStore } from "@/stores/use-theme-store";
 
@@ -24,6 +25,8 @@ const queryClient = new QueryClient({
 });
 
 dayjs.locale("zh-cn");
+
+const spinConfig = { indicator: <MoyingDropLoader /> };
 
 export function AppProviders({ children }: { children: ReactNode }) {
     const theme = useThemeStore((state) => state.theme);
@@ -56,7 +59,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
     }, [dark, theme]);
 
     return (
-        <ConfigProvider locale={zhCN} theme={getAntThemeConfig(dark)}>
+        <ConfigProvider locale={zhCN} theme={getAntThemeConfig(dark)} spin={spinConfig}>
             <App message={{ top: 84, duration: 2.4, maxCount: 3 }}>
                 <QueryClientProvider client={queryClient}>
                     <ClientRootInit>{children}</ClientRootInit>
