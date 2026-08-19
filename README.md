@@ -1,13 +1,11 @@
-<p align="center">
-  <img src="web/public/logo.svg?v=0.0.6" width="108" alt="VOZEB PRO logo">
-</p>
+<h1 align="center">墨影AI创作平台</h1>
 
-<h1 align="center">VOZEB PRO</h1>
+<p align="center">想法落笔，万象成影</p>
 
-<p align="center">面向统一创作 Agent、Canvas 与短剧生产的开源 AI 创作平台</p>
+<p align="center">一个入口完成文字、图像、视频、音频、画布与短剧创作</p>
 
 <p align="center">
-  <a href="https://github.com/csyqlz/VOZEB-PRO"><img src="https://img.shields.io/github/stars/csyqlz/VOZEB-PRO?style=flat-square&logo=github" alt="GitHub stars"></a>
+  <a href="https://github.com/clearyzm/moying-ai-platform"><img src="https://img.shields.io/github/stars/clearyzm/moying-ai-platform?style=flat-square&logo=github" alt="GitHub stars"></a>
   <a href="VERSION"><img src="https://img.shields.io/badge/version-v0.0.6-2563eb?style=flat-square" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-f97316?style=flat-square" alt="License"></a>
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.2-000000?style=flat-square&logo=nextdotjs" alt="Next.js"></a>
@@ -15,7 +13,6 @@
 </p>
 
 <p align="center">
-  <a href="https://www.vozeb.com">演示站</a> ·
   <a href="docs/index.md">文档索引</a> ·
   <a href="docs/content/docs/overview/configuration.mdx">0.0.6 发布说明</a> ·
   <a href="#目录与文件用途">目录与文件用途</a> ·
@@ -25,9 +22,9 @@
   <a href="CHANGELOG.md">更新记录</a>
 </p>
 
-![VOZEB PRO 首页](docs/public/screenshots/pages/01-home.webp)
+墨影AI创作平台采用纸张、墨色与朱砂构成的创作界面，并加入 AI 墨球思考动效。平台把统一创作 Agent、画布、短剧生产、素材库和商业运营后台放在同一套 Next.js 全栈应用中。PostgreSQL 保存账号与业务数据；媒体可写入服务器本地目录或 S3 兼容对象存储；模型、支付和存储密钥只在服务端使用。
 
-VOZEB PRO 把统一创作 Agent、画布、短剧生产、素材库和商业运营后台放在同一套 Next.js 全栈应用中。PostgreSQL 保存账号与业务数据；媒体可写入服务器本地目录或 S3 兼容对象存储；模型、支付和存储密钥只在服务端使用。
+本项目基于 [VOZEB-PRO](https://github.com/csyqlz/VOZEB-PRO) 进行界面重设计与品牌定制，并继续遵循仓库中的 AGPL-3.0 许可证。
 
 ## 核心功能
 
