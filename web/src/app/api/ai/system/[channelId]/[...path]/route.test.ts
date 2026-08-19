@@ -39,8 +39,8 @@ import { systemAiBillingHeaders, systemAiPointsIdempotencyKey } from "@/lib/serv
 const context = { params: Promise.resolve({ channelId: "channel-one", path: ["_media"] }) };
 
 describe("system generation proxy runtime", () => {
-    it("keeps long image and video submissions alive beyond the framework default", () => {
-        expect(maxDuration).toBeGreaterThanOrEqual(40 * 60);
+    it("uses the maximum duration supported by the Vercel Hobby deployment", () => {
+        expect(maxDuration).toBe(5 * 60);
     });
 });
 

@@ -35,8 +35,8 @@ describe("POST /api/agent/runs", () => {
         mocks.getAgentRunByClientRequestId.mockResolvedValue(null);
     });
 
-    it("keeps Agent recovery alive while long media children are running", () => {
-        expect(maxDuration).toBeGreaterThanOrEqual(40 * 60);
+    it("uses the maximum duration supported by the Vercel Hobby deployment", () => {
+        expect(maxDuration).toBe(5 * 60);
     });
 
     it("requires authentication", async () => {

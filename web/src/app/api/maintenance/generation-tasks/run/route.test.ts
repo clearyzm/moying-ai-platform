@@ -27,8 +27,8 @@ describe("POST /api/maintenance/generation-tasks/run", () => {
         mocks.install.mockResolvedValue({ database: { schemaReady: true } });
     });
 
-    it("allows a worker batch to outlive the longest upstream model request", () => {
-        expect(maxDuration).toBeGreaterThanOrEqual(40 * 60);
+    it("uses the maximum duration supported by the Vercel Hobby deployment", () => {
+        expect(maxDuration).toBe(5 * 60);
     });
 
     it("refuses to run without a configured worker token", async () => {

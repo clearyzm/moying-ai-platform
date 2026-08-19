@@ -31,8 +31,8 @@ describe("image task route", () => {
         vi.clearAllMocks();
     });
 
-    it("keeps background image submission alive past the five minute route default", () => {
-        expect(maxDuration).toBeGreaterThanOrEqual(40 * 60);
+    it("uses the maximum duration supported by the Vercel Hobby deployment", () => {
+        expect(maxDuration).toBe(5 * 60);
     });
 
     it("returns the existing task before settings, rate, and concurrency checks", async () => {
