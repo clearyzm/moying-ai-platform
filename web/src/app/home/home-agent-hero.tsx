@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { AudioLines, Image as ImageIcon, Lightbulb, Paperclip, Send, Video } from "lucide-react";
 
+import { AiInkOrb } from "@/components/ui/ai-ink-orb";
 import { HOME_CREATION_MODES, type HomeCreationMode } from "./home-data";
 import { useHomeActions } from "./home-actions";
 import styles from "./home-agent-hero.module.css";
@@ -31,40 +32,23 @@ export function HomeAgentHero() {
 
     return (
         <section className={styles.hero} aria-labelledby="home-hero-title">
-            <span className={`${styles.floatingArtifact} ${styles.artifactAgent}`} data-hero-decoration aria-hidden="true">
-                <span className={styles.artifactFace}>
-                    <Lightbulb />
-                </span>
-            </span>
-            <span className={`${styles.floatingArtifact} ${styles.artifactImage}`} data-hero-decoration aria-hidden="true">
-                <span className={styles.artifactFace}>
-                    <ImageIcon />
-                </span>
-            </span>
-            <span className={`${styles.floatingArtifact} ${styles.artifactVideo}`} data-hero-decoration aria-hidden="true">
-                <span className={styles.artifactFace}>
-                    <Video />
-                </span>
-            </span>
-            <span className={`${styles.floatingArtifact} ${styles.artifactAudio}`} data-hero-decoration aria-hidden="true">
-                <span className={styles.artifactFace}>
-                    <AudioLines />
-                </span>
-            </span>
             <div className={styles.heroContent}>
-                <h1 id="home-hero-title" className={styles.heroTitle}>
-                    一个入口 完成所有 <span>AI 创作</span>
-                </h1>
-                <p className={styles.heroSubtitle}>从图片、视频、音频到 Agent 编排，让每个想法直接进入完整创作流程</p>
+                <div className={styles.heroCopy}>
+                    <div className={styles.heroMark}>
+                        <AiInkOrb />
+                    </div>
+                    <h1 id="home-hero-title" className={styles.heroTitle}>
+                        想法落笔，<span>万象成影</span>
+                    </h1>
+                    <p className={styles.heroSubtitle}>用一个工作台完成文字、图像、视频、音频与创作编排。</p>
+                </div>
 
                 <div className={styles.agentStage}>
-                    <div className={styles.agentRing} data-testid="home-agent-halo" aria-hidden="true">
-                        <span className={styles.ringGround} data-halo-ring />
-                        <span className={styles.ringOuter} data-halo-ring />
-                        <span className={styles.ringMiddle} data-halo-ring />
-                        <span className={styles.ringInner} data-halo-ring />
-                    </div>
                     <div className={styles.agentCard} data-testid="home-agent-card">
+                        <div className={styles.agentHeading}>
+                            <span>墨影创作台</span>
+                            <span>{currentMode.label}</span>
+                        </div>
                         <div className={styles.inputArea}>
                             <label htmlFor="home-agent-prompt" className={styles.srOnly}>
                                 描述你想创作的内容
@@ -78,7 +62,7 @@ export function HomeAgentHero() {
                                     if ((event.metaKey || event.ctrlKey) && event.key === "Enter") submit();
                                 }}
                                 className={styles.agentTextarea}
-                                placeholder="描述你想创作的内容，比如："
+                                placeholder="写下你想创作的内容"
                                 rows={3}
                             />
                         </div>

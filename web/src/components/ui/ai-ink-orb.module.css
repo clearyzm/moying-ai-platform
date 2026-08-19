@@ -1,0 +1,102 @@
+.orb {
+    --orb-size: 58px;
+    --orb-ink: #17191d;
+    --orb-accent: #c84a36;
+    display: inline-grid;
+    flex: 0 0 auto;
+    height: var(--orb-size);
+    isolation: isolate;
+    place-items: center;
+    position: relative;
+    width: var(--orb-size);
+}
+
+.compact {
+    --orb-size: 40px;
+}
+
+.core {
+    animation: ink-breathe 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    background: radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.42), transparent 16%), radial-gradient(circle at 68% 72%, rgba(200, 74, 54, 0.5), transparent 26%), var(--orb-ink);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
+    box-shadow:
+        inset 6px 8px 14px rgba(255, 255, 255, 0.08),
+        inset -8px -10px 16px rgba(0, 0, 0, 0.28),
+        0 9px 24px rgba(25, 27, 31, 0.2);
+    height: 62%;
+    position: relative;
+    width: 62%;
+    z-index: 2;
+}
+
+.ring {
+    animation: ink-orbit 3.6s linear infinite;
+    inset: 2px;
+    position: absolute;
+}
+
+.ring span {
+    background: var(--orb-accent);
+    border: 2px solid var(--background, #fafbfc);
+    border-radius: 50%;
+    height: 7px;
+    position: absolute;
+    width: 7px;
+}
+
+.ring span:nth-child(1) {
+    left: 6%;
+    top: 45%;
+}
+
+.ring span:nth-child(2) {
+    right: 14%;
+    top: 9%;
+    transform: scale(0.66);
+}
+
+.ring span:nth-child(3) {
+    bottom: 4%;
+    right: 22%;
+    transform: scale(0.48);
+}
+
+:global(.dark) .orb {
+    --orb-ink: #e7e4df;
+    --orb-accent: #e06a52;
+}
+
+:global(.dark) .core {
+    background: radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.72), transparent 16%), radial-gradient(circle at 68% 72%, rgba(224, 106, 82, 0.52), transparent 26%), var(--orb-ink);
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow:
+        inset 6px 8px 14px rgba(255, 255, 255, 0.22),
+        inset -8px -10px 16px rgba(0, 0, 0, 0.18),
+        0 9px 24px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes ink-breathe {
+    0%,
+    100% {
+        border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
+        transform: rotate(-7deg) scale(0.92);
+    }
+    50% {
+        border-radius: 56% 44% 43% 57% / 42% 55% 45% 58%;
+        transform: rotate(8deg) scale(1.06);
+    }
+}
+
+@keyframes ink-orbit {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .core,
+    .ring {
+        animation: none;
+    }
+}

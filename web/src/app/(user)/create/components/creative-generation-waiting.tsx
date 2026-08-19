@@ -1,8 +1,8 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { AiInkOrb } from "@/components/ui/ai-ink-orb";
 import type { CreativeMessage } from "@/lib/creative-runtime-contract";
 import type { CreativeAgentRun } from "@/services/api/creative";
 
@@ -25,9 +25,9 @@ export function CreativeGenerationWaiting({ run, message }: { run?: CreativeAgen
     const copy = creativeGenerationWaitingCopy({ mode: creativeRunMode(run), runStatus: run?.status, progressText: message.content, elapsedSeconds });
 
     return (
-        <div data-testid="creative-generation-waiting" className="mb-3 max-w-[520px] py-1 text-[#667085] dark:text-[#a0a9b4]">
-            <div className="flex items-start gap-2.5">
-                <Sparkles className="mt-1 size-4 shrink-0 animate-pulse text-primary/75" aria-hidden />
+        <div data-testid="creative-generation-waiting" className="mb-3 max-w-[560px] py-1 text-[#667085] dark:text-[#a0a9b4]">
+            <div className="flex items-center gap-3">
+                <AiInkOrb compact />
                 <div className="min-w-0">
                     <p className="text-sm leading-6 text-[#596474] dark:text-[#b0b8c2]" aria-live="polite">
                         {copy}

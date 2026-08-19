@@ -9,17 +9,12 @@ export function SiteLogo({ logoUrl, className }: { logoUrl: string; className?: 
     const [failedLogoUrl, setFailedLogoUrl] = useState("");
 
     if (customLogoUrl && failedLogoUrl !== customLogoUrl) {
-        return <img src={customLogoUrl} alt="" className={cn("shrink-0 object-contain", className)} referrerPolicy="no-referrer" onError={() => setFailedLogoUrl(customLogoUrl)} />;
+        return <img data-testid="site-logo" src={customLogoUrl} alt="" className={cn("shrink-0 object-contain", className)} referrerPolicy="no-referrer" onError={() => setFailedLogoUrl(customLogoUrl)} />;
     }
 
     return (
-        <span
-            aria-hidden="true"
-            className={cn("shrink-0 bg-stone-950 dark:bg-white", className)}
-            style={{
-                mask: "url(/logo.svg) center / contain no-repeat",
-                WebkitMask: "url(/logo.svg) center / contain no-repeat",
-            }}
-        />
+        <span data-testid="site-logo" aria-hidden="true" className={cn("inline-flex shrink-0 items-center justify-center rounded-[28%] bg-[#1b1d20] text-[0.52em] font-black text-[#f5f1e9] dark:bg-[#efede7] dark:text-[#17191d]", className)}>
+            墨
+        </span>
     );
 }

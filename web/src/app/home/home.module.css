@@ -1,61 +1,54 @@
 .root {
-    --home-bg: #f9fbff;
-    --home-section-bg: rgba(255, 255, 255, 0.9);
-    --home-surface: rgba(255, 255, 255, 0.78);
-    --home-surface-strong: #ffffff;
-    --home-text: #10182f;
-    --home-muted: #65708a;
-    --home-border: rgba(112, 132, 189, 0.22);
-    --home-card-border: rgba(94, 120, 205, 0.25);
-    --home-control-border: rgba(101, 123, 181, 0.2);
-    --home-divider: rgba(105, 129, 190, 0.08);
-    --home-card-highlight: rgba(255, 255, 255, 0.96);
+    --home-bg: #f1f0ec;
+    --home-section-bg: #f6f4ef;
+    --home-surface: rgba(255, 254, 250, 0.76);
+    --home-surface-strong: #fffefa;
+    --home-text: #17191d;
+    --home-muted: #686863;
+    --home-border: rgba(28, 30, 33, 0.16);
+    --home-card-border: rgba(28, 30, 33, 0.2);
+    --home-control-border: rgba(28, 30, 33, 0.18);
+    --home-divider: rgba(28, 30, 33, 0.08);
+    --home-card-highlight: rgba(255, 254, 250, 0.94);
     --home-ring-core: rgba(255, 255, 255, 0.9);
     --home-ring-blue: rgba(79, 108, 255, 0.38);
     --home-ring-violet: rgba(151, 87, 255, 0.22);
     --home-nav-glass: rgba(255, 255, 255, 0.6);
     --home-nav-glass-border: rgba(111, 133, 196, 0.2);
-    --home-primary-start: #1768ff;
-    --home-primary-end: #8047ef;
-    --home-glow: rgba(82, 100, 255, 0.3);
-    --home-shadow: 0 24px 70px rgba(50, 72, 138, 0.14);
-    --home-header: rgba(251, 252, 255, 0.9);
-    background: radial-gradient(ellipse 74% 42% at 50% 14%, rgba(117, 151, 255, 0.13), transparent 70%), linear-gradient(180deg, #fbfdff 0%, #f7f9ff 38%, #ffffff 100%);
+    --home-primary-start: #c84a36;
+    --home-primary-end: #a93b2c;
+    --home-glow: rgba(200, 74, 54, 0.18);
+    --home-shadow: 0 24px 70px rgba(28, 30, 33, 0.12);
+    --home-header: rgba(241, 240, 236, 0.88);
+    background: #f1f0ec;
     color: var(--home-text);
     letter-spacing: 0;
     scroll-behavior: smooth;
 }
 
 :global(.dark) .root {
-    --home-bg: #031027;
-    --home-section-bg: rgba(3, 15, 34, 0.93);
-    --home-surface: rgba(8, 26, 56, 0.7);
-    --home-surface-strong: #071a36;
-    --home-text: #f4f7ff;
-    --home-muted: #9aa8c4;
-    --home-border: rgba(123, 154, 255, 0.24);
-    --home-card-border: rgba(113, 144, 255, 0.38);
-    --home-control-border: rgba(132, 154, 221, 0.3);
-    --home-divider: rgba(126, 151, 220, 0.11);
-    --home-card-highlight: rgba(174, 200, 255, 0.18);
+    --home-bg: #121315;
+    --home-section-bg: #17181a;
+    --home-surface: rgba(35, 36, 39, 0.74);
+    --home-surface-strong: #202225;
+    --home-text: #efede7;
+    --home-muted: #aaa8a2;
+    --home-border: rgba(238, 235, 228, 0.16);
+    --home-card-border: rgba(238, 235, 228, 0.2);
+    --home-control-border: rgba(238, 235, 228, 0.18);
+    --home-divider: rgba(238, 235, 228, 0.09);
+    --home-card-highlight: rgba(255, 254, 250, 0.14);
     --home-ring-core: rgba(137, 184, 255, 0.9);
     --home-ring-blue: rgba(32, 103, 255, 0.86);
     --home-ring-violet: rgba(145, 57, 255, 0.66);
     --home-nav-glass: rgba(17, 38, 73, 0.62);
     --home-nav-glass-border: rgba(125, 153, 244, 0.22);
-    --home-primary-start: #126eff;
-    --home-primary-end: #8b42ef;
-    --home-glow: rgba(70, 91, 255, 0.5);
+    --home-primary-start: #e06a52;
+    --home-primary-end: #c84a36;
+    --home-glow: rgba(224, 106, 82, 0.2);
     --home-shadow: 0 28px 82px rgba(0, 0, 0, 0.38);
-    --home-header: rgba(3, 14, 32, 0.82);
-    background:
-        radial-gradient(ellipse 72% 42% at 50% 16%, rgba(32, 76, 167, 0.22), transparent 72%), radial-gradient(circle at 13% 18%, rgba(62, 86, 211, 0.12) 1px, transparent 1.5px),
-        radial-gradient(circle at 78% 10%, rgba(162, 180, 255, 0.15) 1px, transparent 1.5px), linear-gradient(180deg, #020b1d 0%, #031127 52%, #04142d 100%);
-    background-size:
-        auto,
-        42px 42px,
-        58px 58px,
-        auto;
+    --home-header: rgba(18, 19, 21, 0.86);
+    background: #121315;
 }
 
 .root *,
@@ -75,7 +68,7 @@
 .root a:focus-visible,
 .root textarea:focus-visible,
 .root select:focus-visible {
-    outline: 2px solid #5271ff;
+    outline: 2px solid #c84a36;
     outline-offset: 3px;
 }
 
@@ -104,7 +97,7 @@
     display: grid;
     gap: 22px;
     grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
-    height: 80px;
+    height: 72px;
     margin: 0 auto;
     max-width: 1380px;
     padding: 0 32px;
@@ -199,7 +192,7 @@
 }
 
 .navLink:hover {
-    color: #5268ff;
+    color: #c84a36;
 }
 
 .headerActions {
@@ -249,7 +242,7 @@
 }
 
 .primarySmallButton {
-    background: linear-gradient(135deg, #356fff 0%, #5d4cff 56%, #7934f5 100%);
+    background: #c84a36;
     border: 0;
     box-shadow: 0 9px 24px color-mix(in srgb, var(--home-glow) 65%, transparent);
     color: #ffffff;
@@ -689,7 +682,7 @@
 
 .advantages {
     border: 1px solid var(--home-border);
-    border-radius: 16px;
+    border-radius: 10px;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     margin: 74px auto 0;

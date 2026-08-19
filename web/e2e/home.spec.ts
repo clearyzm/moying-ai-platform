@@ -28,11 +28,11 @@ test("public homepage is functional for signed-out visitors", async ({ browser }
     await page.route("**/api/billing/products", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ products: [], paymentProviders: [] }) }));
 
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1, name: "一个入口 完成所有 AI 创作" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /想法落笔.*万象成影/ })).toBeVisible();
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.getByText("核心能力", { exact: true })).toHaveCount(0);
     await expect(page.getByTestId("home-agent-card")).toHaveCount(1);
-    await expect(page.getByTestId("home-agent-halo").locator("[data-halo-ring]")).toHaveCount(4);
+    await expect(page.getByRole("img", { name: "AI 正在思考" })).toBeVisible();
     await expect(page.getByTestId("home-public-gallery")).toBeVisible();
     const galleryLayout = await page
         .getByTestId("home-public-gallery")
@@ -115,7 +115,7 @@ test("public homepage is functional for signed-out visitors", async ({ browser }
     await expect(prompt).toHaveValue("生成一张科幻城市概念图");
     await page.getByRole("button", { name: "AI 绘图" }).click();
     await expect(page.getByRole("button", { name: "AI 绘图" })).toHaveAttribute("aria-pressed", "true");
-    await expect(prompt).toHaveAttribute("placeholder", "描述你想创作的内容，比如：");
+    await expect(prompt).toHaveAttribute("placeholder", "写下你想创作的内容");
     await page.getByRole("button", { name: "生成电影感的未来城市概念图" }).click();
     await expect(prompt).toHaveValue("生成电影感的未来城市概念图");
     await expect(page.getByLabel("创作模式").getByRole("button")).toHaveCount(4);
@@ -137,14 +137,16 @@ test("public homepage is functional for signed-out visitors", async ({ browser }
         await send.hover();
         const sendStyle = await send.evaluate((element) => ({
             backgroundImage: getComputedStyle(element).backgroundImage,
+            backgroundColor: getComputedStyle(element).backgroundColor,
             borderRadius: getComputedStyle(element).borderRadius,
             boxShadow: getComputedStyle(element).boxShadow,
             color: getComputedStyle(element).color,
         }));
-        expect(sendStyle.backgroundImage).toContain("linear-gradient");
-        expect(sendStyle.borderRadius).toBe("50%");
+        expect(sendStyle.backgroundImage).toBe("none");
+        expect(sendStyle.backgroundColor).toBe("rgb(200, 74, 54)");
+        expect(sendStyle.borderRadius).toBe("10px");
         expect(sendStyle.boxShadow).toBe("none");
-        expect(sendStyle.color).toBe("rgb(255, 255, 255)");
+        expect(sendStyle.color).toBe("rgb(255, 250, 245)");
     }
     for (const action of ["开始创作", "进入创作页添加参考素材"]) {
         await page.getByRole("button", { name: action }).click();
@@ -204,13 +206,14 @@ test("public homepage is functional for signed-out visitors", async ({ browser }
         const send = page.getByRole("button", { name: "开始创作" });
         const [attachStyle, sendStyle] = await Promise.all([
             attach.evaluate((element) => ({ backgroundImage: getComputedStyle(element).backgroundImage, borderColor: getComputedStyle(element).borderColor, color: getComputedStyle(element).color })),
-            send.evaluate((element) => ({ backgroundImage: getComputedStyle(element).backgroundImage, color: getComputedStyle(element).color })),
+            send.evaluate((element) => ({ backgroundImage: getComputedStyle(element).backgroundImage, backgroundColor: getComputedStyle(element).backgroundColor, color: getComputedStyle(element).color })),
         ]);
         expect(attachStyle.backgroundImage).toBe("none");
         expect(attachStyle.borderColor).not.toBe("rgba(0, 0, 0, 0)");
         expect(attachStyle.color).not.toBe(sendStyle.color);
-        expect(sendStyle.backgroundImage).toContain("linear-gradient");
-        expect(sendStyle.color).toBe("rgb(255, 255, 255)");
+        expect(sendStyle.backgroundImage).toBe("none");
+        expect(sendStyle.backgroundColor).toBe("rgb(200, 74, 54)");
+        expect(sendStyle.color).toBe("rgb(255, 250, 245)");
     }
     expect(await homepageDomState(page)).toEqual(beforeTheme);
     await expectNoHorizontalOverflow(page);
@@ -249,15 +252,13 @@ test("homepage gallery hides internal service errors from visitors", async ({ pa
     await expect(page.getByText(/PostgreSQL|数据库|部署/)).toHaveCount(0);
 });
 
-test("homepage hero stays centered and responsive", async ({ page }, testInfo) => {
+test("homepage hero keeps the asymmetric creation layout responsive", async ({ page }, testInfo) => {
     await page.route("**/api/public/gallery?**", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(galleryResponse) }));
     await page.goto("/", { waitUntil: "domcontentloaded" });
     const geometry = await page.evaluate(() => {
         const viewportWidth = document.documentElement.clientWidth;
         const title = document.querySelector("h1")!.getBoundingClientRect();
-        const subtitle = document.querySelector("h1 + p")!.getBoundingClientRect();
         const card = document.querySelector<HTMLElement>('[data-testid="home-agent-card"]')!.getBoundingClientRect();
-        const halo = document.querySelector<HTMLElement>('[data-testid="home-agent-halo"]')!.getBoundingClientRect();
         const textarea = document.querySelector<HTMLElement>("#home-agent-prompt")!.getBoundingClientRect();
         const presetsElement = document.querySelector<HTMLElement>('[aria-label="示例提示词"]')!;
         const presets = presetsElement.getBoundingClientRect();
@@ -270,19 +271,13 @@ test("homepage hero stays centered and responsive", async ({ page }, testInfo) =
         const send = document.querySelector<HTMLElement>('button[aria-label="开始创作"]')!.getBoundingClientRect();
         const mobileToolbarButtons = Array.from(toolbarElement.querySelectorAll<HTMLButtonElement>("button")).map((button) => button.getBoundingClientRect());
         const cardRadius = Number.parseFloat(getComputedStyle(document.querySelector<HTMLElement>('[data-testid="home-agent-card"]')!).borderRadius);
-        const rings = Array.from(document.querySelectorAll<HTMLElement>("[data-halo-ring]"));
-        const decorations = Array.from(document.querySelectorAll<HTMLElement>("[data-hero-decoration]"));
         return {
             viewportWidth,
-            titleCenterOffset: Math.abs(title.left + title.width / 2 - viewportWidth / 2),
-            cardCenterOffset: Math.abs(card.left + card.width / 2 - viewportWidth / 2),
+            titleLeft: title.left,
+            cardLeft: card.left,
             cardWidth: card.width,
             cardHeight: card.height,
             cardRadius,
-            haloCenterOffset: Math.abs(halo.left + halo.width / 2 - (card.left + card.width / 2)),
-            haloWidthRatio: halo.width / card.width,
-            haloTop: halo.top,
-            cardBottom: card.bottom,
             textareaHeight: textarea.height,
             presetOffset: presets.top - textarea.bottom,
             presetButtonsInsideCard: presetButtonRects.every((button) => button.left >= card.left && button.right <= card.right && button.top >= card.top && button.bottom <= card.bottom),
@@ -297,68 +292,23 @@ test("homepage hero stays centered and responsive", async ({ page }, testInfo) =
             toolbarOffset: toolbar.top - presets.bottom,
             sendInset: card.right - send.right,
             sendVisible: send.width >= 42 && send.height >= 42,
-            filledRingCount: rings.filter((ring) => getComputedStyle(ring).backgroundImage !== "none").length,
-            borderOnlyRingCount: rings.filter((ring) => Number.parseFloat(getComputedStyle(ring).borderTopWidth) > 0 && getComputedStyle(ring).backgroundImage === "none").length,
-            decorationCount: decorations.length,
-            decorationSizeCount: new Set(
-                decorations.map((decoration) => {
-                    const bounds = decoration.getBoundingClientRect();
-                    return `${Math.round(bounds.width)}x${Math.round(bounds.height)}`;
-                }),
-            ).size,
-            polygonDecorationCount: decorations.filter((decoration) => getComputedStyle(decoration).clipPath !== "none").length,
-            animatedDecorationCount: decorations.filter((decoration) => getComputedStyle(decoration).animationName !== "none").length,
-            visibleDecorationCount: decorations.filter((decoration) => getComputedStyle(decoration).display !== "none").length,
-            decorationSubtitleOverlapCount: decorations.filter((decoration) => getComputedStyle(decoration).display !== "none" && decoration.getBoundingClientRect().top < subtitle.bottom).length,
             mobileToolbarButtonCount: mobileToolbarButtons.length,
             mobileToolbarButtonsInsideCard: mobileToolbarButtons.every((button) => button.left >= card.left && button.right <= card.right && button.top >= card.top && button.bottom <= card.bottom),
             mobileToolbarRowSpread: Math.max(...mobileToolbarButtons.map((button) => button.top)) - Math.min(...mobileToolbarButtons.map((button) => button.top)),
             visibleModeLabelCount: Array.from(creationModesElement.querySelectorAll<HTMLElement>("span:last-child")).filter((label) => getComputedStyle(label).display !== "none").length,
-            sequencedDecorationCount: decorations.filter((decoration) => getComputedStyle(decoration).animationName.includes("artifact-reveal") && getComputedStyle(decoration).animationName.includes("artifact-float")).length,
-            shadowedDecorationCount: decorations.filter((decoration) => {
-                const face = decoration.firstElementChild as HTMLElement | null;
-                return getComputedStyle(decoration).boxShadow !== "none" || getComputedStyle(decoration, "::before").boxShadow !== "none" || (face ? getComputedStyle(face).boxShadow !== "none" : false);
-            }).length,
-            castShadowDecorationCount: decorations.filter((decoration) => getComputedStyle(decoration, "::after").content !== "none").length,
         };
     });
-    expect(geometry.titleCenterOffset).toBeLessThanOrEqual(2);
-    expect(geometry.cardCenterOffset).toBeLessThanOrEqual(2);
     expect(geometry.cardWidth).toBeLessThanOrEqual(geometry.viewportWidth - (geometry.viewportWidth < 768 ? 24 : 48));
     if (testInfo.project.name === "chromium") {
-        expect(geometry.cardWidth).toBeGreaterThanOrEqual(1080);
-        expect(geometry.cardWidth).toBeLessThanOrEqual(1120);
-        expect(geometry.cardHeight).toBeGreaterThanOrEqual(286);
-        expect(geometry.cardHeight).toBeLessThanOrEqual(304);
-        expect(geometry.cardRadius).toBeGreaterThanOrEqual(28);
-        expect(geometry.cardRadius).toBeLessThanOrEqual(32);
-        expect(geometry.haloCenterOffset).toBeLessThanOrEqual(1);
-        expect(geometry.haloWidthRatio).toBeGreaterThan(1.16);
-        expect(geometry.haloWidthRatio).toBeLessThan(1.2);
-        expect(geometry.haloTop).toBeLessThan(geometry.cardBottom);
-        expect(geometry.textareaHeight).toBeGreaterThanOrEqual(68);
-        expect(geometry.presetOffset).toBe(0);
-        expect(geometry.toolbarOffset).toBeGreaterThanOrEqual(18);
-        expect(geometry.toolbarOffset).toBeLessThanOrEqual(26);
-        expect(geometry.sendInset).toBeGreaterThanOrEqual(34);
-        expect(geometry.filledRingCount).toBe(4);
-        expect(geometry.borderOnlyRingCount).toBe(0);
-        expect(geometry.decorationCount).toBe(4);
-        expect(geometry.decorationSizeCount).toBe(4);
-        expect(geometry.polygonDecorationCount).toBe(0);
-        expect(geometry.animatedDecorationCount).toBe(4);
-        expect(geometry.sequencedDecorationCount).toBe(4);
-        expect(geometry.shadowedDecorationCount).toBe(0);
-        expect(geometry.castShadowDecorationCount).toBe(0);
+        expect(geometry.titleLeft).toBeLessThan(geometry.cardLeft);
+        expect(geometry.cardWidth).toBeGreaterThanOrEqual(520);
+        expect(geometry.cardHeight).toBeGreaterThanOrEqual(400);
+        expect(geometry.cardRadius).toBeGreaterThanOrEqual(14);
+        expect(geometry.cardRadius).toBeLessThanOrEqual(18);
+        expect(geometry.textareaHeight).toBeGreaterThanOrEqual(100);
     }
     if (testInfo.project.name.startsWith("mobile-")) {
         expect(geometry.visiblePresetCount).toBe(4);
-        expect(geometry.presetButtonsInsideCard).toBe(true);
-        expect(geometry.presetColumnCount).toBe(2);
-        expect(geometry.presetRowCount).toBe(2);
-        expect(geometry.presetsFitWithoutScroll).toBe(true);
-        expect(geometry.visibleDecorationCount).toBe(4);
-        expect(geometry.decorationSubtitleOverlapCount).toBe(0);
         expect(geometry.mobileToolbarButtonCount).toBe(6);
         expect(geometry.mobileToolbarButtonsInsideCard).toBe(true);
         expect(geometry.mobileToolbarRowSpread).toBeLessThanOrEqual(3);
