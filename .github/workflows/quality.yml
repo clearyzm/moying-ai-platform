@@ -60,8 +60,10 @@ jobs:
         run: pnpm run build
         env:
           NEXT_SKIP_BUILD_TYPECHECK: "1"
-      - name: Verify preinstalled Chrome
-        run: google-chrome --version
+      - name: Prepare browser runtime
+        run: |
+          google-chrome --version
+          pnpm exec playwright install ffmpeg
       - name: Browser E2E
         run: pnpm run e2e
         env:

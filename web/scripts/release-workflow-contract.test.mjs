@@ -34,10 +34,11 @@ describe("release workflow contract", () => {
         expect(document.errors).toEqual([]);
         for (const command of ["pnpm run lint", "pnpm run typecheck", "pnpm test", "pnpm run build", "pnpm run e2e"]) expect(source).toContain(command);
         const webJob = document.toJS().jobs.web;
-        const browserCheck = webJob.steps.find((item) => item.name === "Verify preinstalled Chrome");
+        const browserCheck = webJob.steps.find((item) => item.name === "Prepare browser runtime");
         expect(webJob["runs-on"]).toBe("ubuntu-24.04");
-        expect(browserCheck?.run).toBe("google-chrome --version");
-        expect(source).not.toContain("playwright install");
+        expect(browserCheck?.run).toContain("google-chrome --version");
+        expect(browserCheck?.run).toContain("pnpm exec playwright install ffmpeg");
+        expect(source).not.toContain("playwright install chromium");
         expect(source).toContain("version: 11.9.0");
         expect(source).toContain("gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7");
         expect(source).toContain("github/codeql-action/analyze@47be0dbd5113ab1b79fe2dd3f68bdf7e426cdc87");
