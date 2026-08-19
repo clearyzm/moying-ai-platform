@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   web:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgres:16.6-alpine
@@ -60,9 +60,8 @@ jobs:
         run: pnpm run build
         env:
           NEXT_SKIP_BUILD_TYPECHECK: "1"
-      - name: Install Playwright Chromium
-        timeout-minutes: 10
-        run: pnpm exec playwright install --with-deps --only-shell chromium
+      - name: Verify preinstalled Chrome
+        run: google-chrome --version
       - name: Browser E2E
         run: pnpm run e2e
         env:

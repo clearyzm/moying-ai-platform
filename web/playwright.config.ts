@@ -20,6 +20,7 @@ export default defineConfig({
     reporter: process.env.CI ? [["github"], ["html", { open: "never", outputFolder: "playwright-report" }]] : "list",
     use: {
         baseURL,
+        channel: process.env.CI ? "chrome" : undefined,
         trace: "retain-on-failure",
         screenshot: "only-on-failure",
         video: "retain-on-failure",
