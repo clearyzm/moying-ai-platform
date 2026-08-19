@@ -61,7 +61,8 @@ jobs:
         env:
           NEXT_SKIP_BUILD_TYPECHECK: "1"
       - name: Install Playwright Chromium
-        run: pnpm exec playwright install --with-deps chromium
+        timeout-minutes: 10
+        run: pnpm exec playwright install --with-deps --only-shell chromium
       - name: Browser E2E
         run: pnpm run e2e
         env:
