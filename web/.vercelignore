@@ -1,0 +1,11 @@
+.next
+.next-*
+.vercel
+.e2e-artifacts
+.e2e-data
+node_modules
+node_modules.*
+.env*
+*.tsbuildinfo
+playwright-report
+test-results
