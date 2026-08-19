@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { SiteLogo } from "@/components/layout/site-logo";
+import { MoyingDropLoader } from "@/components/ui/moying-drop-loader";
 import { cn } from "@/lib/utils";
 import { usePublicSessionStore } from "@/stores/use-public-session-store";
 
@@ -35,7 +36,7 @@ export function LazyMediaImage({
         <span className={cn("relative overflow-hidden bg-muted", hasPlaceholder ? "grid" : "block", status !== "ready" && "min-h-20", containerClassName)}>
             {status === "loading" && !placeholderReady ? (
                 <span className="absolute inset-0 grid min-h-20 place-items-center" aria-hidden="true">
-                    <SiteLogo logoUrl={logoUrl} className="size-8 opacity-35" />
+                    <MoyingDropLoader className="size-8" />
                 </span>
             ) : null}
             {status === "error" && !placeholderReady ? (
