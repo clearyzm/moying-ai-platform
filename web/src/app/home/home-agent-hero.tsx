@@ -46,7 +46,7 @@ export function HomeAgentHero() {
                 <div className={styles.agentStage}>
                     <div className={styles.agentCard} data-testid="home-agent-card">
                         <div className={styles.agentHeading}>
-                            <span>墨影创作台</span>
+                            <span>墨影漫剧创作台</span>
                             <span>{currentMode.label}</span>
                         </div>
                         <div className={styles.inputArea}>

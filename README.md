@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="web/public/logo.svg" width="104" alt="墨影AI创作平台 Logo">
+  <img src="web/public/logo.svg" width="104" alt="墨影AI漫剧创作平台 Logo">
 </p>
 
-<h1 align="center">墨影AI创作平台</h1>
+<h1 align="center">墨影AI漫剧创作平台</h1>
 
 <p align="center">想法落笔，万象成影</p>
 
@@ -27,12 +27,12 @@
   <a href="CHANGELOG.md">更新记录</a>
 </p>
 
-![墨影AI创作平台首页](docs/public/screenshots/pages/01-home-moying.png)
+![墨影AI漫剧创作平台首页](docs/public/screenshots/pages/01-home-moying.png)
 
 > [!IMPORTANT]
-> [Vercel 在线站点](https://moying-ai-platform.vercel.app)仅用于展示墨影AI创作平台的界面、响应式布局与交互动效，不提供可承诺的数据持久化或完整 AI 生成服务。真正使用时，请下载源码并配置 PostgreSQL、稳定的加密密钥、模型渠道、S3 兼容对象存储和常驻 Generation Worker；部署要求见下方“快速开始”和[配置说明](docs/content/docs/overview/configuration.mdx)。
+> [Vercel 在线站点](https://moying-ai-platform.vercel.app)仅用于展示墨影AI漫剧创作平台的界面、响应式布局与交互动效，不提供可承诺的数据持久化或完整 AI 生成服务。真正使用时，请下载源码并配置 PostgreSQL、稳定的加密密钥、模型渠道、S3 兼容对象存储和常驻 Generation Worker；部署要求见下方“快速开始”和[配置说明](docs/content/docs/overview/configuration.mdx)。
 
-墨影AI创作平台采用纸张、墨色与朱砂构成的创作界面，并加入 AI 墨球思考动效。平台把统一创作 Agent、画布、短剧生产、素材库和商业运营后台放在同一套 Next.js 全栈应用中。PostgreSQL 保存账号与业务数据；媒体可写入服务器本地目录或 S3 兼容对象存储；模型、支付和存储密钥只在服务端使用。
+墨影AI漫剧创作平台采用纸张、墨色与朱砂构成的创作界面，并加入 AI 墨球思考动效。平台把统一创作 Agent、画布、短剧生产、素材库和商业运营后台放在同一套 Next.js 全栈应用中。PostgreSQL 保存账号与业务数据；媒体可写入服务器本地目录或 S3 兼容对象存储；模型、支付和存储密钥只在服务端使用。
 
 ## 核心功能
 
@@ -377,7 +377,7 @@ flowchart LR
 
 ## 最低服务器配置
 
-墨影AI创作平台调用外部 AI 模型，不要求 GPU。服务器主要承担 Web、PostgreSQL、媒体下载/存储和可选 FFmpeg 转码。
+墨影AI漫剧创作平台调用外部 AI 模型，不要求 GPU。服务器主要承担 Web、PostgreSQL、媒体下载/存储和可选 FFmpeg 转码。
 
 | 使用方式                   | CPU      | 内存           | 磁盘      | 说明                                                                |
 | -------------------------- | -------- | -------------- | --------- | ------------------------------------------------------------------- |
@@ -469,7 +469,7 @@ pnpm install --frozen-lockfile
 pnpm run dev
 ```
 
-`http://localhost:3000` 必须显示墨影AI创作平台主应用；如果看到独立文档中心，说明启动的是 `docs/` 子项目，请停止该进程并从 `web/` 启动主应用。独立文档站只使用 `http://localhost:3001`。
+`http://localhost:3000` 必须显示墨影AI漫剧创作平台主应用；如果看到独立文档中心，说明启动的是 `docs/` 子项目，请停止该进程并从 `web/` 启动主应用。独立文档站只使用 `http://localhost:3001`。
 
 ## 首次配置顺序
 

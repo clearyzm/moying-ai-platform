@@ -38,10 +38,10 @@ function demoWork(id: string, title: string, description: string, category: stri
         publishedAt: `2026-08-${18 - index}T08:00:00.000Z`,
         title,
         description,
-        publicPrompt: "墨影AI创作平台原创视觉示例",
+        publicPrompt: "墨影AI漫剧创作平台原创视觉示例",
         category,
         tags,
-        authorName: "墨影平台示例",
+        authorName: "墨影漫剧平台示例",
         preview: { id: `preview-${id}`, mediaType: "image", mimeType: "image/webp", url: `/demo-works/${id}.webp` },
     };
 }

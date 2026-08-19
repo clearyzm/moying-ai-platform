@@ -6,7 +6,7 @@ describe("listMoyingDemoGallery", () => {
     it("returns the four branded demo works", () => {
         const result = listMoyingDemoGallery();
         expect(result.items).toHaveLength(4);
-        expect(result.items.every((item) => item.slug.startsWith("demo-") && item.authorName === "墨影平台示例")).toBe(true);
+        expect(result.items.every((item) => item.slug.startsWith("demo-") && item.authorName === "墨影漫剧平台示例")).toBe(true);
     });
 
     it("supports category and keyword filters", () => {

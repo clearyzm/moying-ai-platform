@@ -11,7 +11,7 @@ const packageMetadata = JSON.parse(readFileSync(resolve(webDir, "package.json"),
 const versionPath = resolve(webDir, "../VERSION");
 const changelogPath = resolve(webDir, "../CHANGELOG.md");
 const localVersion = (existsSync(versionPath) ? readFileSync(versionPath, "utf8").trim() : `v${packageMetadata.version || "dev"}`) || "dev";
-const localChangelog = existsSync(changelogPath) ? readFileSync(changelogPath, "utf8") : `# ${localVersion}\n\n- 墨影AI创作平台展示版本。`;
+const localChangelog = existsSync(changelogPath) ? readFileSync(changelogPath, "utf8") : `# ${localVersion}\n\n- 墨影AI漫剧创作平台展示版本。`;
 const configuredBuildCpus = Number.parseInt(process.env.NEXT_BUILD_CPUS || "", 10);
 const distDir = process.env.NEXT_DIST_DIR?.trim() || ".next";
 const skipBuildTypeCheck = process.env.NEXT_SKIP_BUILD_TYPECHECK === "1";

@@ -21,7 +21,7 @@ describe("installation page routing", () => {
         delete process.env.VERCEL;
         delete process.env.NEXT_PUBLIC_SHOWCASE_MODE;
         mocks.getPublicSiteSettings.mockResolvedValue({
-            title: "墨影AI创作平台",
+            title: "墨影AI漫剧创作平台",
             logoUrl: "/logo.svg",
             seoDescription: "",
             footerCopyright: "",

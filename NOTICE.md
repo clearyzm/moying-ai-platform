@@ -1,6 +1,6 @@
-# 墨影AI创作平台修改声明
+# 墨影AI漫剧创作平台修改声明
 
-墨影AI创作平台是基于 VOZEB-PRO 创建的修改版本，继续依据 GNU Affero General Public License v3.0 发布。
+墨影AI漫剧创作平台是基于 VOZEB-PRO 创建的修改版本，继续依据 GNU Affero General Public License v3.0 发布。
 
 - 上游项目：<https://github.com/csyqlz/VOZEB-PRO>
 - 修改版本源码：<https://github.com/clearyzm/moying-ai-platform>
