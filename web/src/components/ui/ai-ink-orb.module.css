@@ -15,51 +15,38 @@
     --orb-size: 40px;
 }
 
-.core {
-    animation: ink-breathe 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-    background: radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.42), transparent 16%), radial-gradient(circle at 68% 72%, rgba(200, 74, 54, 0.5), transparent 26%), var(--orb-ink);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
-    box-shadow:
-        inset 6px 8px 14px rgba(255, 255, 255, 0.08),
-        inset -8px -10px 16px rgba(0, 0, 0, 0.28),
-        0 9px 24px rgba(25, 27, 31, 0.2);
-    height: 62%;
-    position: relative;
-    width: 62%;
-    z-index: 2;
+.mark {
+    animation: mark-breathe 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    display: block;
+    height: 100%;
+    overflow: visible;
+    width: 100%;
 }
 
-.ring {
-    animation: ink-orbit 3.6s linear infinite;
-    inset: 2px;
-    position: absolute;
+.outline {
+    fill: transparent;
+    stroke: var(--orb-ink);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.25;
+    opacity: 0.24;
 }
 
-.ring span {
-    background: var(--orb-accent);
-    border: 2px solid var(--background, #fafbfc);
-    border-radius: 50%;
-    height: 7px;
-    position: absolute;
-    width: 7px;
+.fill {
+    animation: logo-fill 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    transform: scaleY(0.02);
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    will-change: transform, opacity;
 }
 
-.ring span:nth-child(1) {
-    left: 6%;
-    top: 45%;
+.inkFill {
+    fill: var(--orb-ink);
 }
 
-.ring span:nth-child(2) {
-    right: 14%;
-    top: 9%;
-    transform: scale(0.66);
-}
-
-.ring span:nth-child(3) {
-    bottom: 4%;
-    right: 22%;
-    transform: scale(0.48);
+.vermilionFill {
+    animation-delay: 0.12s;
+    fill: var(--orb-accent);
 }
 
 :global(.dark) .orb {
@@ -67,36 +54,44 @@
     --orb-accent: #e06a52;
 }
 
-:global(.dark) .core {
-    background: radial-gradient(circle at 32% 25%, rgba(255, 255, 255, 0.72), transparent 16%), radial-gradient(circle at 68% 72%, rgba(224, 106, 82, 0.52), transparent 26%), var(--orb-ink);
-    border-color: rgba(255, 255, 255, 0.42);
-    box-shadow:
-        inset 6px 8px 14px rgba(255, 255, 255, 0.22),
-        inset -8px -10px 16px rgba(0, 0, 0, 0.18),
-        0 9px 24px rgba(0, 0, 0, 0.3);
+:global(.dark) .outline {
+    opacity: 0.3;
 }
 
-@keyframes ink-breathe {
+@keyframes logo-fill {
     0%,
-    100% {
-        border-radius: 44% 56% 52% 48% / 48% 42% 58% 52%;
-        transform: rotate(-7deg) scale(0.92);
+    12% {
+        opacity: 0.25;
+        transform: scaleY(0.02);
     }
-    50% {
-        border-radius: 56% 44% 43% 57% / 42% 55% 45% 58%;
-        transform: rotate(8deg) scale(1.06);
+    62%,
+    84% {
+        opacity: 1;
+        transform: scaleY(1);
+    }
+    100% {
+        opacity: 0.12;
+        transform: scaleY(0.02);
     }
 }
 
-@keyframes ink-orbit {
-    to {
-        transform: rotate(360deg);
+@keyframes mark-breathe {
+    0%,
+    58%,
+    100% {
+        transform: scale(0.94);
+    }
+    72%,
+    84% {
+        transform: scale(1);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .core,
-    .ring {
+    .fill,
+    .mark {
         animation: none;
+        opacity: 1;
+        transform: none;
     }
 }
