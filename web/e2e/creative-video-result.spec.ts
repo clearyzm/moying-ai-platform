@@ -870,6 +870,14 @@ async function installBrowserSpies(page: Page) {
             (window as unknown as { __fullscreenRequests?: number }).__fullscreenRequests = Number((window as unknown as { __fullscreenRequests?: number }).__fullscreenRequests || 0) + 1;
         };
         document.exitFullscreen = async () => undefined;
+        Object.defineProperty(navigator, "clipboard", {
+            configurable: true,
+            value: {
+                writeText: async (text: string) => {
+                    (window as unknown as { __lastCopiedText?: string }).__lastCopiedText = text;
+                },
+            },
+        });
         document.execCommand = ((command: string) => {
             if (command.toLowerCase() !== "copy") return true;
             const selection = document.getSelection()?.toString() || "";
